@@ -2,23 +2,23 @@ package com.mohammadsayed.mindvalley.downloader.downloader;
 
 import android.content.Context;
 
-import java.io.File;
+import com.mohammadsayed.mindvalley.downloader.data.DownloadResult;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by mohammad on 7/27/17.
  */
 
-public abstract class Downloader implements Observer<File> {
+public abstract class Downloader implements Observer<DownloadResult> {
 
     private Context mContext;
-    private long startTime;
-    private long endTime;
     private FileDownloader mFileDownloader;
     private String mUrl;
+    private DownloadResult mDownloadResult;
 
     public Downloader(Context context) {
         this.mContext = context;
@@ -43,7 +43,6 @@ public abstract class Downloader implements Observer<File> {
         if (mUrl == null) {
             return;
         }
-        startTime = System.currentTimeMillis();
         mFileDownloader = new FileDownloader(getContext(), mUrl);
         mFileDownloader.getObservable()
                 .subscribeOn(Schedulers.io())
@@ -52,14 +51,14 @@ public abstract class Downloader implements Observer<File> {
     }
 
     @Override
-    public void onComplete() {
-        endTime = System.currentTimeMillis();
+    public void onNext(@NonNull DownloadResult downloadResult) {
+        mDownloadResult = downloadResult;
     }
 
     public long getDuration() {
-        if (startTime == 0 || endTime == 0) {
-            return 0;
+        if (mDownloadResult != null) {
+            return mDownloadResult.getDownloadingDuration();
         }
-        return endTime - startTime;
+        return 0;
     }
 }

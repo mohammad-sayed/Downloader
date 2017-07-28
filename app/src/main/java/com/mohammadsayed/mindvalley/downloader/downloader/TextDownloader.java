@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.mohammadsayed.mindvalley.downloader.R;
+import com.mohammadsayed.mindvalley.downloader.data.DownloadResult;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,7 +21,6 @@ import io.reactivex.disposables.Disposable;
 
 public class TextDownloader extends Downloader {
 
-    private FileDownloader mFileDownloader;
     private TextView mTextView;
     private String mText;
     private OnDownloadCompletedListener mOnDownloadCompletedListener;
@@ -78,10 +78,28 @@ public class TextDownloader extends Downloader {
     }
 
     @Override
-    public void onNext(@NonNull File file) {
-        mText = getFileTextContent(file);
+    public void onNext(@NonNull DownloadResult downloadResult) {
+        super.onNext(downloadResult);
+        mText = getFileTextContent(downloadResult.getFile());
         mTextView.setText(mText);
     }
+
+    @Override
+    public void onError(@NonNull Throwable e) {
+        String errorMessage = e.getMessage();
+        if (TextUtils.isEmpty(errorMessage) || !TextUtils.isEmpty(errorMessage.trim())) {
+            errorMessage = getContext().getString(R.string.error_json_download);
+        }
+        mTextView.setText(errorMessage);
+    }
+
+    @Override
+    public void onComplete() {
+        if (mOnDownloadCompletedListener != null) {
+            mOnDownloadCompletedListener.onComplete(mText, getDuration());
+        }
+    }
+
 
     private String getFileTextContent(File file) {
         //Read mText fromUrl file
@@ -101,23 +119,6 @@ public class TextDownloader extends Downloader {
             //You'll need to add proper error handling here
         }
         return null;
-    }
-
-    @Override
-    public void onError(@NonNull Throwable e) {
-        String errorMessage = e.getMessage();
-        if (TextUtils.isEmpty(errorMessage) || !TextUtils.isEmpty(errorMessage.trim())) {
-            errorMessage = getContext().getString(R.string.error_json_download);
-        }
-        mTextView.setText(errorMessage);
-    }
-
-    @Override
-    public void onComplete() {
-        super.onComplete();
-        if (mOnDownloadCompletedListener != null) {
-            mOnDownloadCompletedListener.onComplete(mText, getDuration());
-        }
     }
 
     public interface OnDownloadCompletedListener {
