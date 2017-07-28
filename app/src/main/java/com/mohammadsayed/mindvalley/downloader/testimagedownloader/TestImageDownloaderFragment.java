@@ -29,27 +29,50 @@ public class TestImageDownloaderFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ImageView ivMain = (ImageView) view.findViewById(R.id.iv_main_photo);
-        final TextView tvMainTime = (TextView) view.findViewById(R.id.tv_main_photo_download_time);
-        ImageView ivSecondary = (ImageView) view.findViewById(R.id.iv_secondary_photo);
-        String url = "https://ak2.picdn.net/shutterstock/videos/4055689/thumb/8.jpg";
+        ImageView ivNotCachedImage = (ImageView) view.findViewById(R.id.iv_not_cached_image);
+        final TextView tvNotCachedImageStatus = (TextView) view.findViewById(R.id.tv_not_cached_image_status);
+        ImageView ivCachedImage = (ImageView) view.findViewById(R.id.iv_cached_image);
+        final TextView tvCachedImageStatus = (TextView) view.findViewById(R.id.tv_cached_image_status);
+        ImageView ivSecondary = (ImageView) view.findViewById(R.id.iv_internal_image);
+
+        String imageUrl = "https://ak2.picdn.net/shutterstock/videos/4055689/thumb/8.jpg";
         ImageDownloader.with(getContext())
-                .fromUrl(url)
+                .fromUrl(imageUrl)
                 .placeholder(R.drawable.img_placeholder)
                 .error(R.drawable.img_error)
                 .setOnDownloadCompletedListener(new ImageDownloader.OnDownloadCompletedListener() {
                     @Override
                     public void onComplete(Bitmap bitmap, long duration) {
-                        String durationText = StringUtil.getDurationTime(duration);
-                        tvMainTime.setText(getString(R.string.time, durationText));
+                        String imageStatus = getImageStatus(duration, false);
+                        tvNotCachedImageStatus.setText(imageStatus);
                     }
                 })
-                .into(ivMain);
+                .into(ivNotCachedImage);
+        ImageDownloader.with(getContext())
+                .fromUrl(imageUrl)
+                .placeholder(R.drawable.img_placeholder)
+                .error(R.drawable.img_error)
+                .setOnDownloadCompletedListener(new ImageDownloader.OnDownloadCompletedListener() {
+                    @Override
+                    public void onComplete(Bitmap bitmap, long duration) {
+                        String imageStatus = getImageStatus(duration, false);
+                        tvCachedImageStatus.setText(imageStatus);
+                    }
+                })
+                .into(ivCachedImage);
 
         ImageDownloader.with(getContext())
                 .fromDrawable(R.drawable.img_success)
-                .placeholder(R.drawable.img_placeholder)
-                .error(R.drawable.img_error)
                 .into(ivSecondary);
+    }
+
+    private String getImageStatus(long duration, boolean cache) {
+        StringBuilder stringBuilder = new StringBuilder();
+        String durationText = StringUtil.getDurationTime(duration);
+        String cacheStatus = cache ? getString(R.string.cache_true) : getString(R.string.cache_false);
+        stringBuilder.append(getString(R.string.cache, cacheStatus))
+                .append("\n")
+                .append(getString(R.string.time, durationText));
+        return stringBuilder.toString();
     }
 }
