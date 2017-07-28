@@ -23,6 +23,12 @@
             android:background="@android:color/white"
             android:scaleType="centerCrop" />
 
+        <TextView
+            android:id="@+id/tv_main_photo_download_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@string/text_download"/>
+
         <ImageView
             android:id="@+id/iv_secondary_photo"
             android:layout_width="250dp"

@@ -4,4 +4,5 @@
     <string name="image_download">Test Image downloading</string>
     <string name="text_download">Test Text downloading</string>
     <string name="user_interface">Raw text in User Interface</string>
+    <string name="time">Time: %1$s</string>
 </resources>

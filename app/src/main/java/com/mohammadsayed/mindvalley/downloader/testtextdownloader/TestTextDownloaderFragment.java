@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.mohammadsayed.mindvalley.downloader.R;
 import com.mohammadsayed.mindvalley.downloader.downloader.TextDownloader;
+import com.mohammadsayed.mindvalley.downloader.utils.StringUtil;
 
 /**
  * Created by mohammad on 7/28/17.
@@ -26,8 +27,18 @@ public class TestTextDownloaderFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        final TextView tvDownloadTime = (TextView) view.findViewById(R.id.tv_json_file_download_time);
         TextView tvJson = (TextView) view.findViewById(R.id.tv_json_file);
         String jsonUrl = "http://pastebin.com/raw/wgkJgazE";
-        TextDownloader.with(getContext()).fromUrl(jsonUrl).into(tvJson);
+        TextDownloader.with(getContext())
+                .fromUrl(jsonUrl)
+                .setOnDownloadCompletedListener(new TextDownloader.OnDownloadCompletedListener() {
+                    @Override
+                    public void onComplete(String text, long duration) {
+                        String durationText = StringUtil.getDurationTime(duration);
+                        tvDownloadTime.setText(getString(R.string.time, durationText));
+                    }
+                })
+                .into(tvJson);
     }
 }
