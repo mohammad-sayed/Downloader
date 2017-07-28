@@ -7,7 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 
-import java.io.File;
+import com.mohammadsayed.mindvalley.downloader.data.DownloadResult;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -22,7 +22,6 @@ public class ImageDownloader extends Downloader {
     private Drawable mDrawableError;
     private ImageView mImageView;
     private Drawable mDrawableImage;
-    private FileDownloader mFileDownloader;
     private OnDownloadCompletedListener mOnDownloadCompletedListener;
     private Bitmap mBitmap;
 
@@ -109,8 +108,9 @@ public class ImageDownloader extends Downloader {
     }
 
     @Override
-    public void onNext(@NonNull File file) {
-        String filePath = file.getPath();
+    public void onNext(@NonNull DownloadResult downloadResult) {
+        super.onNext(downloadResult);
+        String filePath = downloadResult.getFile().getPath();
         mBitmap = BitmapFactory.decodeFile(filePath);
         mImageView.setImageBitmap(mBitmap);
     }
@@ -124,7 +124,6 @@ public class ImageDownloader extends Downloader {
 
     @Override
     public void onComplete() {
-        super.onComplete();
         if (mOnDownloadCompletedListener != null) {
             mOnDownloadCompletedListener.onComplete(mBitmap, getDuration());
         }
