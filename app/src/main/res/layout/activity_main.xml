@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,21 +8,41 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/iv_main_photo"
-        android:layout_width="250dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center"
-        android:background="@android:color/white"
-        android:scaleType="centerCrop" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/android_vertical_margin"
+        android:paddingTop="@dimen/android_vertical_margin">
 
-    <ImageView
-        android:id="@+id/iv_secondary_photo"
-        android:layout_width="250dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/android_vertical_margin"
-        android:background="@android:color/white"
-        android:scaleType="centerCrop" />
+        <ImageView
+            android:id="@+id/iv_main_photo"
+            android:layout_width="250dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:background="@android:color/white"
+            android:scaleType="centerCrop" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tv_json_file"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/android_vertical_margin"
+            android:layout_marginTop="@dimen/android_vertical_margin"
+            android:background="@android:color/white"
+            android:padding="@dimen/android_vertical_margin"
+            android:textColor="@android:color/black" />
+
+        <ImageView
+            android:id="@+id/iv_secondary_photo"
+            android:layout_width="250dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/android_vertical_margin"
+            android:background="@android:color/white"
+            android:scaleType="centerCrop" />
+
+
+    </LinearLayout>
+
+</ScrollView>
