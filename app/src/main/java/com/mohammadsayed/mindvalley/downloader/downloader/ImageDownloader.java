@@ -9,10 +9,8 @@ import android.widget.ImageView;
 
 import java.io.File;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by mohammad on 7/28/17.
@@ -23,9 +21,10 @@ public class ImageDownloader extends Downloader {
     private Drawable mDrawablePlaceholder;
     private Drawable mDrawableError;
     private ImageView mImageView;
-    private String mUrl;
     private Drawable mDrawableImage;
     private FileDownloader mFileDownloader;
+    private OnDownloadCompletedListener mOnDownloadCompletedListener;
+    private Bitmap mBitmap;
 
     private ImageDownloader(Context context) {
         super(context);
@@ -36,19 +35,23 @@ public class ImageDownloader extends Downloader {
         return new ImageDownloader(context);
     }
 
-    public ImageDownloader from(String url) {
-        if (url == null) {
-            throw new RuntimeException("ImageView Url can't be null");
-        }
-        if (url.trim().equals("")) {
-            throw new RuntimeException("ImageView Url can't be empty");
-        }
-        this.mUrl = url;
+    @Override
+    public ImageDownloader fromUrl(String url) {
+        return (ImageDownloader) super.fromUrl(url);
+    }
+
+    public ImageDownloader fromDrawable(int resId) {
+        mDrawableImage = getDrawable(resId);
         return this;
     }
 
-    public ImageDownloader from(int resId) {
-        mDrawableImage = getDrawable(resId);
+    public ImageDownloader fromDrawable(Drawable drawable) {
+        this.mDrawableImage = drawable;
+        return this;
+    }
+
+    public ImageDownloader fromBitmap(Bitmap bitmap) {
+        this.mBitmap = bitmap;
         return this;
     }
 
@@ -72,6 +75,11 @@ public class ImageDownloader extends Downloader {
         return this;
     }
 
+    public ImageDownloader setOnDownloadCompletedListener(OnDownloadCompletedListener onDownloadCompletedListener) {
+        this.mOnDownloadCompletedListener = onDownloadCompletedListener;
+        return this;
+    }
+
     public void into(ImageView imageView) {
         if (imageView == null) {
             throw new RuntimeException("ImageView can't be null");
@@ -83,14 +91,10 @@ public class ImageDownloader extends Downloader {
 
         if (mDrawableImage != null) {
             mImageView.setImageDrawable(mDrawableImage);
-        }
-
-        if (mUrl != null) {
-            mFileDownloader = new FileDownloader(getContext(), mUrl);
-            mFileDownloader.getObservable()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this);
+        } else if (mBitmap != null) {
+            mImageView.setImageBitmap(mBitmap);
+        } else {
+            startDownloading();
         }
     }
 
@@ -107,8 +111,8 @@ public class ImageDownloader extends Downloader {
     @Override
     public void onNext(@NonNull File file) {
         String filePath = file.getPath();
-        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-        mImageView.setImageBitmap(bitmap);
+        mBitmap = BitmapFactory.decodeFile(filePath);
+        mImageView.setImageBitmap(mBitmap);
     }
 
     @Override
@@ -120,6 +124,13 @@ public class ImageDownloader extends Downloader {
 
     @Override
     public void onComplete() {
+        super.onComplete();
+        if (mOnDownloadCompletedListener != null) {
+            mOnDownloadCompletedListener.onComplete(mBitmap, getDuration());
+        }
+    }
 
+    public interface OnDownloadCompletedListener {
+        void onComplete(Bitmap bitmap, long duration);
     }
 }

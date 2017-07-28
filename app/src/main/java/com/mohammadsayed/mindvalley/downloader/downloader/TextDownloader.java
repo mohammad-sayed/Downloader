@@ -11,10 +11,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by mohammad on 7/28/17.
@@ -22,10 +20,10 @@ import io.reactivex.schedulers.Schedulers;
 
 public class TextDownloader extends Downloader {
 
-    private String mUrl;
     private FileDownloader mFileDownloader;
     private TextView mTextView;
     private String mText;
+    private OnDownloadCompletedListener mOnDownloadCompletedListener;
 
     private TextDownloader(Context context) {
         super(context);
@@ -36,15 +34,9 @@ public class TextDownloader extends Downloader {
         return new TextDownloader(context);
     }
 
+    @Override
     public TextDownloader fromUrl(String url) {
-        if (url == null) {
-            throw new RuntimeException("Url can't be null");
-        }
-        if (url.trim().equals("")) {
-            throw new RuntimeException("Url can't be empty");
-        }
-        this.mUrl = url;
-        return this;
+        return (TextDownloader) super.fromUrl(url);
     }
 
     public TextDownloader fromText(int resId) {
@@ -57,18 +49,21 @@ public class TextDownloader extends Downloader {
         return this;
     }
 
+    public TextDownloader setOnDownloadCompletedListener(OnDownloadCompletedListener onDownloadCompletedListener) {
+        this.mOnDownloadCompletedListener = onDownloadCompletedListener;
+        return this;
+    }
+
     public void into(TextView textView) {
         if (textView == null) {
             throw new RuntimeException("TextView can't be null");
         }
         this.mTextView = textView;
 
-        if (mUrl != null) {
-            mFileDownloader = new FileDownloader(getContext(), mUrl);
-            mFileDownloader.getObservable()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this);
+        if (mText != null) {
+            mTextView.setText(mText);
+        } else {
+            startDownloading();
         }
     }
 
@@ -84,8 +79,8 @@ public class TextDownloader extends Downloader {
 
     @Override
     public void onNext(@NonNull File file) {
-        String content = getFileTextContent(file);
-        mTextView.setText(content);
+        mText = getFileTextContent(file);
+        mTextView.setText(mText);
     }
 
     private String getFileTextContent(File file) {
@@ -119,6 +114,13 @@ public class TextDownloader extends Downloader {
 
     @Override
     public void onComplete() {
+        super.onComplete();
+        if (mOnDownloadCompletedListener != null) {
+            mOnDownloadCompletedListener.onComplete(mText, getDuration());
+        }
+    }
 
+    public interface OnDownloadCompletedListener {
+        void onComplete(String text, long duration);
     }
 }
