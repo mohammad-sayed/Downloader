@@ -83,7 +83,9 @@ public class ImageDownloader extends Downloader {
 
         if (mDrawableImage != null) {
             mImageView.setImageDrawable(mDrawableImage);
-        } else if (mUrl != null) {
+        }
+
+        if (mUrl != null) {
             mFileDownloader = new FileDownloader(getContext(), mUrl);
             mFileDownloader.getObservable()
                     .subscribeOn(Schedulers.io())
