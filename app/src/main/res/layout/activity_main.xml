@@ -1,18 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mohammadsayed.mindvalley.downloader.MainActivity">
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/android_vertical_margin"
+        android:paddingTop="@dimen/android_vertical_margin">
 
-</android.support.constraint.ConstraintLayout>
+        <ImageView
+            android:id="@+id/iv_main_photo"
+            android:layout_width="250dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:background="@android:color/white"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/tv_json_file"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/android_vertical_margin"
+            android:layout_marginTop="@dimen/android_vertical_margin"
+            android:background="@android:color/white"
+            android:padding="@dimen/android_vertical_margin"
+            android:textColor="@android:color/black" />
+
+        <ImageView
+            android:id="@+id/iv_secondary_photo"
+            android:layout_width="250dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/android_vertical_margin"
+            android:background="@android:color/white"
+            android:scaleType="centerCrop" />
+
+
+    </LinearLayout>
+
+</ScrollView>
