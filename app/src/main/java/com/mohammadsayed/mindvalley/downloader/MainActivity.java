@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
                 .setOnDownloadCompletedListener(new ImageDownloader.OnDownloadCompletedListener() {
                     @Override
                     public void onComplete(Bitmap bitmap, long duration) {
-                        Toast.makeText(MainActivity.this, "Duration: " + duration / 1000 + " seconds", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Duration: " + duration + " milliseconds", Toast.LENGTH_SHORT).show();
                     }
                 }).into(ivMain);
 
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
                 .setOnDownloadCompletedListener(new TextDownloader.OnDownloadCompletedListener() {
                     @Override
                     public void onComplete(String string, long duration) {
-                        Toast.makeText(MainActivity.this, "Duration: " + duration / 1000 + " seconds", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Duration: " + duration + " milliseconds", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .into(tvJson);
