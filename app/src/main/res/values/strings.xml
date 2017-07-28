@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Downloader</string>
+    <string name="error_json_download">Error in json file downloading</string>
 </resources>
