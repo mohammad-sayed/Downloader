@@ -27,18 +27,42 @@ public class TestTextDownloaderFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final TextView tvDownloadTime = (TextView) view.findViewById(R.id.tv_json_file_download_time);
-        TextView tvJson = (TextView) view.findViewById(R.id.tv_json_file);
+        TextView tvNotCachedJson = (TextView) view.findViewById(R.id.tv_not_cached_json_file);
+        final TextView tvNotCachedFileStatus = (TextView) view.findViewById(R.id.tv_not_cached_json_file_status);
+        TextView tvCachedJson = (TextView) view.findViewById(R.id.tv_cached_json_file);
+        final TextView tvCachedFileStatus = (TextView) view.findViewById(R.id.tv_cached_json_file_status);
+
         String jsonUrl = "http://pastebin.com/raw/wgkJgazE";
         TextDownloader.with(getContext())
                 .fromUrl(jsonUrl)
                 .setOnDownloadCompletedListener(new TextDownloader.OnDownloadCompletedListener() {
                     @Override
                     public void onComplete(String text, long duration) {
-                        String durationText = StringUtil.getDurationTime(duration);
-                        tvDownloadTime.setText(getString(R.string.time, durationText));
+                        String textStatus = getImageStatus(duration, false);
+                        tvNotCachedFileStatus.setText(textStatus);
                     }
                 })
-                .into(tvJson);
+                .into(tvNotCachedJson);
+
+        TextDownloader.with(getContext())
+                .fromUrl(jsonUrl)
+                .setOnDownloadCompletedListener(new TextDownloader.OnDownloadCompletedListener() {
+                    @Override
+                    public void onComplete(String text, long duration) {
+                        String textStatus = getImageStatus(duration, false);
+                        tvCachedFileStatus.setText(textStatus);
+                    }
+                })
+                .into(tvCachedJson);
+    }
+
+    private String getImageStatus(long duration, boolean cache) {
+        StringBuilder stringBuilder = new StringBuilder();
+        String durationText = StringUtil.getDurationTime(duration);
+        String cacheStatus = cache ? getString(R.string.cache_true) : getString(R.string.cache_false);
+        stringBuilder.append(getString(R.string.cache, cacheStatus))
+                .append("\n")
+                .append(getString(R.string.time, durationText));
+        return stringBuilder.toString();
     }
 }
