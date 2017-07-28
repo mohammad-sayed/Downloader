@@ -13,68 +13,78 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 
 import io.reactivex.Observable;
-import io.reactivex.Observer;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.annotations.NonNull;
 
 /**
  * Created by mohammad on 7/27/17.
  */
 
-public class FileDownloader extends Observable<File> {
+public class FileDownloader implements ObservableOnSubscribe<File> {
 
     private Context mContext;
-    private ArrayList<Observer<? super File>> mObservers;
+    private ArrayList<ObservableEmitter<File>> mObservers;
+    private Observable<File> mObservable;
+    private String mUrl;
 
-    public FileDownloader(Context context) {
+    public FileDownloader(Context context, String url) {
         this.mContext = context;
+        this.mUrl = url;
         mObservers = new ArrayList<>();
+        mObservable = Observable.create(this);
     }
-
 
     @Override
-    protected void subscribeActual(Observer<? super File> observer) {
-        mObservers.add(observer);
+    public void subscribe(@NonNull ObservableEmitter<File> e) throws Exception {
+        mObservers.add(e);
+        downloadFile(mUrl);
     }
 
-    private void downloadFile(String urlString) {
+    public void downloadFile(String urlString) {
         int count;
         try {
             URL url = new URL(urlString);
             URLConnection conection = url.openConnection();
             conection.connect();
             // getting file length
-            int lenghtOfFile = conection.getContentLength();
+            //int lenghtOfFile = conection.getContentLength();
 
             // input stream to read file - with 8k buffer
             InputStream input = new BufferedInputStream(url.openStream(), 8192);
 
             // Output stream to write file
             //mContext.getCacheDir();
-            File outputFile = getFile(urlString);
-            if (outputFile != null) {
-                OutputStream output = new FileOutputStream(outputFile);
+            String outputFilePath = getFilePath(urlString);
+            if (outputFilePath != null) {
+                OutputStream output = new FileOutputStream(outputFilePath);
 
                 byte data[] = new byte[1024];
 
                 long total = 0;
 
+                Log.i("FileDownloader", "Download Started");
+
                 while ((count = input.read(data)) != -1) {
                     // writing data to file
                     output.write(data, 0, count);
                 }
+                Log.i("FileDownloader", "Download Finished");
                 // flushing output
                 output.flush();
                 // closing streams
                 output.close();
+                File outputFile = new File(outputFilePath);
                 notifySubscribersOnNext(outputFile);
             }
             input.close();
         } catch (Exception e) {
-            Log.e("Error: ", e.getMessage());
+            Log.e("FileDownloader", "Error");
             notifySubscribersOnError(e);
         }
     }
 
-    private File getFile(String urlString) {
+    private String getFilePath(String urlString) {
         File directory = mContext.getFilesDir();
         /*if (mContext.getExternalCacheDir() != null && mContext.getExternalCacheDir().exists()) {
             directory = mContext.getExternalCacheDir();
@@ -82,27 +92,29 @@ public class FileDownloader extends Observable<File> {
             directory = mContext.getCacheDir();
         }
         mContext.getExternalCacheDir().exists()*/
-        String fileName = urlString.substring(urlString.lastIndexOf("/") + 1);
-        File outputFile = new File(directory, fileName);
-        if (!outputFile.mkdirs()) {
+        if (!directory.exists() && !directory.mkdirs()) {
             Log.e("Error: ", "Directory not created");
             notifySubscribersOnError(new RuntimeException("Directory not created"));
             return null;
         }
-        return outputFile;
+        return directory.getPath() + "/" + urlString.substring(urlString.lastIndexOf("/") + 1);
     }
 
 
     private void notifySubscribersOnNext(File file) {
-        for (Observer observer : mObservers) {
+        for (ObservableEmitter<File> observer : mObservers) {
             observer.onNext(file);
             observer.onComplete();
         }
     }
 
     private void notifySubscribersOnError(Throwable e) {
-        for (Observer observer : mObservers) {
+        for (ObservableEmitter<File> observer : mObservers) {
             observer.onError(e);
         }
+    }
+
+    public Observable<File> getObservable() {
+        return mObservable;
     }
 }
