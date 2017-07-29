@@ -25,14 +25,21 @@ public abstract class Downloader implements Observer<DownloadResult> {
     }
 
     public Downloader fromUrl(String url) {
+        if (!isUrlValid(url)) {
+            return null;
+        }
+        this.mUrl = url;
+        return this;
+    }
+
+    private boolean isUrlValid(String url) {
         if (url == null) {
             throw new RuntimeException("Url can't be null");
         }
         if (url.trim().equals("")) {
             throw new RuntimeException("Url can't be empty");
         }
-        this.mUrl = url;
-        return this;
+        return true;
     }
 
     public Context getContext() {
@@ -40,7 +47,7 @@ public abstract class Downloader implements Observer<DownloadResult> {
     }
 
     public void startDownloading() {
-        if (mUrl == null) {
+        if (!isUrlValid(mUrl)) {
             return;
         }
         mFileDownloader = new FileDownloader(getContext(), mUrl);
