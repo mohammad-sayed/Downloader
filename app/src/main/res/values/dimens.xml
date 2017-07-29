@@ -4,5 +4,6 @@
     <dimen name="android_vertical_margin">16dp</dimen>
     <dimen name="android_vertical_margin_double">32dp</dimen>
     <dimen name="android_horizontal_margin">16dp</dimen>
+    <dimen name="android_horizontal_margin_half">8dp</dimen>
 
 </resources>
