@@ -112,7 +112,9 @@ public class ImageDownloader extends Downloader {
         super.onNext(downloadResult);
         String filePath = downloadResult.getFile().getPath();
         mBitmap = BitmapFactory.decodeFile(filePath);
-        mImageView.setImageBitmap(mBitmap);
+        if (mImageView != null) {
+            mImageView.setImageBitmap(mBitmap);
+        }
     }
 
     @Override
