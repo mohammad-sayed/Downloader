@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.mohammadsayed.mindvalley.downloader.data.DownloadResult;
@@ -120,7 +121,10 @@ public class ImageDownloader extends Downloader {
     @Override
     public void onError(@NonNull Throwable e) {
         if (mDrawableError != null) {
-            mImageView.setImageDrawable(mDrawableError);
+            Log.e("ImageDownloader", "Error:" + e.getMessage());
+            if (mImageView != null) {
+                mImageView.setImageDrawable(mDrawableError);
+            }
         }
     }
 

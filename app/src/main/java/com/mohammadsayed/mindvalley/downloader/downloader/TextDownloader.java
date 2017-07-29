@@ -92,7 +92,9 @@ public class TextDownloader extends Downloader {
         if (TextUtils.isEmpty(errorMessage) || !TextUtils.isEmpty(errorMessage.trim())) {
             errorMessage = getContext().getString(R.string.error_json_download);
         }
-        mTextView.setText(errorMessage);
+        if (mTextView != null) {
+            mTextView.setText(errorMessage);
+        }
     }
 
     @Override
