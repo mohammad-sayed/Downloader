@@ -3,7 +3,7 @@
     <string name="error_json_download">Error in json file downloading</string>
     <string name="image_download">Test Image downloading</string>
     <string name="text_download">Test Text downloading</string>
-    <string name="user_interface">Raw text in User Interface</string>
+    <string name="test_photos_mvc">Photos MVC with UI</string>
 
     <string name="downloading">Downloading…</string>
     <string name="cache">Cache: %1$s</string>
