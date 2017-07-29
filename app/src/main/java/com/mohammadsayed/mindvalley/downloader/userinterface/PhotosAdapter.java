@@ -30,10 +30,12 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
     private ArrayList<Photo> mPhotos;
     private SimpleDateFormat mSimpleDateFormat;
     private SimpleDateFormat mDisplaySimpleDateFormat;
+    private OnPhotosAdapterListener mOnPhotosAdapterListener;
 
-    public PhotosAdapter(Context context, ArrayList<Photo> photos) {
+    public PhotosAdapter(Context context, ArrayList<Photo> photos, OnPhotosAdapterListener onPhotosAdapterListener) {
         this.mContext = context;
         this.mPhotos = photos;
+        this.mOnPhotosAdapterListener = onPhotosAdapterListener;
         mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.ENGLISH);
         mDisplaySimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     }
@@ -46,7 +48,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
 
     @Override
     public void onBindViewHolder(PhotoViewHolder holder, int position) {
-        Photo photo = mPhotos.get(position);
+        final Photo photo = mPhotos.get(position);
 
         PhotoUrls photoUrls = photo.getUrls();
         if (photoUrls != null) {
@@ -67,13 +69,23 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
             e.printStackTrace();
             holder.mTvPhotoDate.setText("");
         }
+
         User user = photo.getUser();
         if (user != null) {
             holder.mTvUsername.setText(photo.getUser().getName());
         } else {
             holder.mTvUsername.setText("");
         }
+
         holder.mTvLikes.setText(String.valueOf(photo.getLikes()));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnPhotosAdapterListener != null) {
+                    mOnPhotosAdapterListener.onPhotoSelected(photo);
+                }
+            }
+        });
     }
 
     @Override
@@ -97,5 +109,9 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
             mTvUsername = (TextView) itemView.findViewById(R.id.tv_user_name);
             mTvLikes = (TextView) itemView.findViewById(R.id.tv_likes_number);
         }
+    }
+
+    public interface OnPhotosAdapterListener {
+        void onPhotoSelected(Photo photo);
     }
 }
