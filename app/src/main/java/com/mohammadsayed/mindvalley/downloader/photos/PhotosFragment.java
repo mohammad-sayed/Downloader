@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.mohammadsayed.mindvalley.downloader.R;
@@ -25,6 +26,7 @@ import io.reactivex.annotations.NonNull;
 public class PhotosFragment extends BaseFragment<PhotosController> implements PhotosAdapter.OnPhotosAdapterListener {
 
     private PhotosAdapter mAdapter;
+    private ProgressBar mProgressBar;
 
     @Override
     protected PhotosController createController() {
@@ -40,6 +42,7 @@ public class PhotosFragment extends BaseFragment<PhotosController> implements Ph
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.pb_loading);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv_photos);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -49,10 +52,12 @@ public class PhotosFragment extends BaseFragment<PhotosController> implements Ph
     }
 
     private void getPhotos() {
+        mProgressBar.setVisibility(View.VISIBLE);
         getController().getPhotos(new BaseObserver<ArrayList<Photo>>() {
             @Override
             public void onNext(@NonNull ArrayList<Photo> photos) {
                 mAdapter.setPhotos(photos);
+                mProgressBar.setVisibility(View.GONE);
             }
         });
     }

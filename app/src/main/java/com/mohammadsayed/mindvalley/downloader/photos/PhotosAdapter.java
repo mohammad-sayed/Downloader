@@ -53,6 +53,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
         PhotoUrls photoUrls = photo.getUrls();
         if (photoUrls != null) {
             ImageDownloader.with(mContext)
+                    .fromUrl(photoUrls.getSmall())
                     .placeholder(R.drawable.img_placeholder)
                     .error(R.drawable.img_error)
                     .into(holder.mIvPhoto);
