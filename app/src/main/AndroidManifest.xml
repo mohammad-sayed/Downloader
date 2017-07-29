@@ -22,7 +22,13 @@
         <activity android:name=".testimagedownloader.TestImageDownloaderActivity" />
         <activity android:name=".testtextdownloader.TestTextDownloaderActivity" />
         <activity android:name=".photos.PhotosActivity" />
-        <activity android:name=".photodetails.PhotoDetailsActivity" />
+        <activity
+            android:name=".photodetails.PhotoDetailsActivity"
+            android:parentActivityName=".photos.PhotosActivity" />
+        <!-- Parent activity meta-data to support 4.0 and lower -->
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".photos.PhotosActivity" />
     </application>
 
 </manifest>

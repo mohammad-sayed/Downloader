@@ -1,5 +1,6 @@
 package com.mohammadsayed.mindvalley.downloader.photos;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import com.mohammadsayed.mindvalley.downloader.R;
 import com.mohammadsayed.mindvalley.downloader.bases.BaseFragment;
 import com.mohammadsayed.mindvalley.downloader.bases.BaseObserver;
 import com.mohammadsayed.mindvalley.downloader.data.Photo;
+import com.mohammadsayed.mindvalley.downloader.photodetails.PhotoDetailsActivity;
 
 import java.util.ArrayList;
 
@@ -65,5 +67,7 @@ public class PhotosFragment extends BaseFragment<PhotosController> implements Ph
     @Override
     public void onPhotoSelected(Photo photo) {
         Toast.makeText(getContext(), photo.getCreationDate(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getContext(), PhotoDetailsActivity.class);
+        startActivity(intent);
     }
 }
