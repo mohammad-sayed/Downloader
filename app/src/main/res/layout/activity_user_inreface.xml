@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mohammadsayed.mindvalley.downloader.userinterface.UserInrefaceActivity">
+    tools:context="com.mohammadsayed.mindvalley.downloader.photos.PhotosActivity">
 
 
     <fragment
         android:id="@+id/fragment_main"
-        android:name="com.mohammadsayed.mindvalley.downloader.userinterface.UserInterfaceFragment"
+        android:name="com.mohammadsayed.mindvalley.downloader.photos.PhotosFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

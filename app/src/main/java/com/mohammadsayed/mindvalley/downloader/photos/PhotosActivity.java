@@ -1,11 +1,11 @@
-package com.mohammadsayed.mindvalley.downloader.userinterface;
+package com.mohammadsayed.mindvalley.downloader.photos;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.mohammadsayed.mindvalley.downloader.R;
 
-public class UserInrefaceActivity extends AppCompatActivity {
+public class PhotosActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

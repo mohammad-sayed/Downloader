@@ -21,7 +21,7 @@
         </activity>
         <activity android:name=".testimagedownloader.TestImageDownloaderActivity" />
         <activity android:name=".testtextdownloader.TestTextDownloaderActivity" />
-        <activity android:name=".userinterface.UserInrefaceActivity"></activity>
+        <activity android:name=".photos.PhotosActivity"></activity>
     </application>
 
 </manifest>

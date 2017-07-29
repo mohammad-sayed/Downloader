@@ -1,4 +1,4 @@
-package com.mohammadsayed.mindvalley.downloader.userinterface;
+package com.mohammadsayed.mindvalley.downloader.photos;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -36,7 +36,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
         this.mContext = context;
         this.mPhotos = photos;
         this.mOnPhotosAdapterListener = onPhotosAdapterListener;
-        mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.ENGLISH);
+        mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
         mDisplaySimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     }
 
@@ -94,6 +94,16 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
             return 0;
         }
         return mPhotos.size();
+    }
+
+    public void setPhotos(ArrayList<Photo> photos) {
+        mPhotos.clear();
+        this.mPhotos = photos;
+        notifyDataSetChanged();
+    }
+
+    public void addPhotos(ArrayList<Photo> photos) {
+        mPhotos.addAll(photos);
     }
 
     class PhotoViewHolder extends RecyclerView.ViewHolder {

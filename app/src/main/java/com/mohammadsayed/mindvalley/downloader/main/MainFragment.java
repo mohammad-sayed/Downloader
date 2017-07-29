@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.mohammadsayed.mindvalley.downloader.R;
 import com.mohammadsayed.mindvalley.downloader.testimagedownloader.TestImageDownloaderActivity;
 import com.mohammadsayed.mindvalley.downloader.testtextdownloader.TestTextDownloaderActivity;
-import com.mohammadsayed.mindvalley.downloader.userinterface.UserInrefaceActivity;
+import com.mohammadsayed.mindvalley.downloader.photos.PhotosActivity;
 
 /**
  * Created by mohammad on 7/28/17.
@@ -43,7 +43,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 goToActivity(TestTextDownloaderActivity.class);
                 break;
             case R.id.btn_app_user_interface:
-                goToActivity(UserInrefaceActivity.class);
+                goToActivity(PhotosActivity.class);
                 break;
         }
     }
