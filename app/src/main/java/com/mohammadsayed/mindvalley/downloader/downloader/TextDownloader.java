@@ -81,7 +81,9 @@ public class TextDownloader extends Downloader {
     public void onNext(@NonNull DownloadResult downloadResult) {
         super.onNext(downloadResult);
         mText = getFileTextContent(downloadResult.getFile());
-        mTextView.setText(mText);
+        if (mTextView != null) {
+            mTextView.setText(mText);
+        }
     }
 
     @Override
