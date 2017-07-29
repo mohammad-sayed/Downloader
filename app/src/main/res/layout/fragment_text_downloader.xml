@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/android_vertical_margin"
+    android:paddingEnd="@dimen/android_horizontal_margin"
+    android:paddingLeft="@dimen/android_horizontal_margin"
+    android:paddingRight="@dimen/android_horizontal_margin"
+    android:paddingStart="@dimen/android_horizontal_margin"
+    android:paddingTop="@dimen/android_vertical_margin"
+    tools:context=".main.MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@android:color/white">
+
+        <TextView
+            android:id="@+id/tv_not_cached_json_file"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="4"
+            android:padding="@dimen/android_vertical_margin"
+            android:textColor="@android:color/black" />
+
+    </ScrollView>
+
+
+    <TextView
+        android:id="@+id/tv_not_cached_json_file_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/android_vertical_margin"
+        android:textColor="@android:color/white" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="@dimen/android_vertical_margin_double"
+        android:background="@android:color/white">
+
+        <TextView
+            android:id="@+id/tv_cached_json_file"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="4"
+            android:padding="@dimen/android_vertical_margin"
+            android:textColor="@android:color/black" />
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/tv_cached_json_file_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/android_vertical_margin"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>

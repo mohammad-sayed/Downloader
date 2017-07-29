@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/android_vertical_margin"
+    android:paddingEnd="@dimen/android_horizontal_margin"
+    android:paddingLeft="@dimen/android_horizontal_margin"
+    android:paddingRight="@dimen/android_horizontal_margin"
+    android:paddingStart="@dimen/android_horizontal_margin"
+    android:paddingTop="@dimen/android_vertical_margin"
+    tools:context=".main.MainActivity">
+
+    <Button
+        android:id="@+id/btn_app_image_downloader_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/android_vertical_margin"
+        android:text="@string/image_download"
+        app:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btn_app_text_downloader_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/android_vertical_margin"
+        android:text="@string/text_download"
+        app:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btn_app_user_interface"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/android_vertical_margin"
+        android:text="@string/user_interface"
+        app:textAllCaps="false" />
+
+</LinearLayout>

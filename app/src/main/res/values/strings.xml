@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">Downloader</string>
     <string name="error_json_download">Error in json file downloading</string>
+    <string name="image_download">Test Image downloading</string>
+    <string name="text_download">Test Text downloading</string>
+    <string name="user_interface">Raw text in User Interface</string>
+
+    <string name="downloading">Downloading…</string>
+    <string name="cache">Cache: %1$s</string>
+    <string name="time">Time: %1$s</string>
+    <string name="cache_true">True</string>
+    <string name="cache_false">False</string>
+
+    <string name="internal_image">Internal Image</string>
 </resources>
