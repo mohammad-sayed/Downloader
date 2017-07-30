@@ -9,8 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
+import com.mohammadsayed.mindvalley.downloader.Constants;
 import com.mohammadsayed.mindvalley.downloader.R;
 import com.mohammadsayed.mindvalley.downloader.bases.BaseFragment;
 import com.mohammadsayed.mindvalley.downloader.bases.BaseObserver;
@@ -66,8 +66,8 @@ public class PhotosFragment extends BaseFragment<PhotosController> implements Ph
 
     @Override
     public void onPhotoSelected(Photo photo) {
-        Toast.makeText(getContext(), photo.getCreationDate(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getContext(), PhotoDetailsActivity.class);
+        intent.putExtra(Constants.Extras.KEY_PHOTO, photo);
         startActivity(intent);
     }
 }

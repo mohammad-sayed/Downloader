@@ -13,12 +13,9 @@ import com.mohammadsayed.mindvalley.downloader.data.Photo;
 import com.mohammadsayed.mindvalley.downloader.data.PhotoUrls;
 import com.mohammadsayed.mindvalley.downloader.data.User;
 import com.mohammadsayed.mindvalley.downloader.downloader.ImageDownloader;
+import com.mohammadsayed.mindvalley.downloader.utils.StringUtil;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by mohammad on 7/29/17.
@@ -28,16 +25,12 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
 
     private Context mContext;
     private ArrayList<Photo> mPhotos;
-    private SimpleDateFormat mSimpleDateFormat;
-    private SimpleDateFormat mDisplaySimpleDateFormat;
     private OnPhotosAdapterListener mOnPhotosAdapterListener;
 
     public PhotosAdapter(Context context, ArrayList<Photo> photos, OnPhotosAdapterListener onPhotosAdapterListener) {
         this.mContext = context;
         this.mPhotos = photos;
         this.mOnPhotosAdapterListener = onPhotosAdapterListener;
-        mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
-        mDisplaySimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     }
 
     @Override
@@ -51,7 +44,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
         final Photo photo = mPhotos.get(position);
 
         PhotoUrls photoUrls = photo.getUrls();
-        if (photoUrls != null) {
+        if (photoUrls != null && !StringUtil.isEmpty(photoUrls.getSmall(), true)) {
             ImageDownloader.with(mContext)
                     .fromUrl(photoUrls.getSmall())
                     .placeholder(R.drawable.img_placeholder)
@@ -63,13 +56,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
                     .into(holder.mIvPhoto);
         }
 
-        try {
-            Date date = mSimpleDateFormat.parse(photo.getCreationDate());
-            holder.mTvPhotoDate.setText(mDisplaySimpleDateFormat.format(date));
-        } catch (ParseException e) {
-            e.printStackTrace();
-            holder.mTvPhotoDate.setText("");
-        }
+        holder.mTvPhotoDate.setText(StringUtil.getDisplayingDateFormat(photo.getCreationDate()));
 
         User user = photo.getUser();
         if (user != null) {

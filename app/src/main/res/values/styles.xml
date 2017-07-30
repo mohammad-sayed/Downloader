@@ -8,11 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
-
-    <style name="ExpandedAppBar" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:textStyle">normal</item>
-    </style>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark"/>
 
 </resources>
