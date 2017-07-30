@@ -6,5 +6,13 @@ package com.mohammadsayed.mindvalley.downloader;
 
 public interface Constants {
 
+    interface Urls {
+
+    }
+
+    interface Extras {
+        String KEY_PHOTO = "photo";
+    }
+
     String PHOTOS_URL = "http://pastebin.com/raw/wgkJgazE";
 }

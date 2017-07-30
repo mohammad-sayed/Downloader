@@ -12,4 +12,14 @@
     <string name="cache_false">False</string>
 
     <string name="internal_image">Internal Image</string>
+    <string name="raw">Raw:&#160;</string>
+    <string name="full">Full:&#160;</string>
+    <string name="regular">Regular:&#160;</string>
+    <string name="small">Small:&#160;</string>
+    <string name="thumb">Thumb:&#160;</string>
+
+    <string name="url_not_available">Url not available</string>
+    <string name="unknown">Unknown</string>
+    <string name="no_available_browser">You have no browsers on your device</string>
+
 </resources>
