@@ -15,4 +15,6 @@ public interface Constants {
     }
 
     String PHOTOS_URL = "http://pastebin.com/raw/wgkJgazE";
+
+    int PHOTOS_LOAD_MORE_ITEMS_SIZE = 3;
 }
