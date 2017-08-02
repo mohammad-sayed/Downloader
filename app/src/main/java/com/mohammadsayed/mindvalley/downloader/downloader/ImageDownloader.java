@@ -91,6 +91,14 @@ public class ImageDownloader extends Downloader {
         return (ImageDownloader) super.setGetCached(getCached);
     }
 
+    @Override
+    public void cancel() {
+        super.cancel();
+        if (mDrawableError != null) {
+            mImageView.setImageDrawable(mDrawableError);
+        }
+    }
+
     public ImageDownloader setOnDownloadCompletedListener(OnDownloadCompletedListener onDownloadCompletedListener) {
         this.mOnDownloadCompletedListener = onDownloadCompletedListener;
         return this;
@@ -138,6 +146,7 @@ public class ImageDownloader extends Downloader {
         super.onNext(downloadResult);
         String filePath = downloadResult.getFile().getPath();
         mBitmap = BitmapFactory.decodeFile(filePath);
+        clearFile();
         setImageBitmap();
     }
 

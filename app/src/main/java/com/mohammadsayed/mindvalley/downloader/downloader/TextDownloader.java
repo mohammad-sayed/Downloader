@@ -123,6 +123,7 @@ public class TextDownloader extends Downloader {
     public void onNext(@NonNull DownloadResult downloadResult) {
         super.onNext(downloadResult);
         mText = getFileTextContent(downloadResult.getFile());
+        clearFile();
         setTextViewString();
     }
 
