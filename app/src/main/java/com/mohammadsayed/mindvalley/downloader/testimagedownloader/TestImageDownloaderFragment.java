@@ -42,8 +42,8 @@ public class TestImageDownloaderFragment extends Fragment {
                 .error(R.drawable.img_error)
                 .setOnDownloadCompletedListener(new ImageDownloader.OnDownloadCompletedListener() {
                     @Override
-                    public void onComplete(Bitmap bitmap, long duration) {
-                        String imageStatus = getImageStatus(duration, false);
+                    public void onComplete(Bitmap bitmap, long duration, boolean cached) {
+                        String imageStatus = getImageStatus(duration, cached);
                         tvNotCachedImageStatus.setText(imageStatus);
                     }
                 })
@@ -54,8 +54,8 @@ public class TestImageDownloaderFragment extends Fragment {
                 .error(R.drawable.img_error)
                 .setOnDownloadCompletedListener(new ImageDownloader.OnDownloadCompletedListener() {
                     @Override
-                    public void onComplete(Bitmap bitmap, long duration) {
-                        String imageStatus = getImageStatus(duration, false);
+                    public void onComplete(Bitmap bitmap, long duration, boolean cached) {
+                        String imageStatus = getImageStatus(duration, cached);
                         tvCachedImageStatus.setText(imageStatus);
                     }
                 })

@@ -32,7 +32,7 @@ public abstract class Downloader implements Observer<DownloadResult> {
         return this;
     }
 
-    private boolean isUrlValid(String url) {
+    protected boolean isUrlValid(String url) {
         if (url == null) {
             throw new RuntimeException("Url can't be null");
         }
@@ -40,6 +40,10 @@ public abstract class Downloader implements Observer<DownloadResult> {
             throw new RuntimeException("Url can't be empty");
         }
         return true;
+    }
+
+    protected boolean isUrlValid() {
+        return isUrlValid(mUrl);
     }
 
     public Context getContext() {
@@ -67,5 +71,9 @@ public abstract class Downloader implements Observer<DownloadResult> {
             return mDownloadResult.getDownloadingDuration();
         }
         return 0;
+    }
+
+    public String getUrl() {
+        return mUrl;
     }
 }
