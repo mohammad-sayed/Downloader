@@ -107,4 +107,8 @@ public abstract class Downloader implements Observer<DownloadResult> {
         this.getCached = getCached;
         return this;
     }
+
+    public void cancel() {
+        mFileDownloader.cancel(this);
+    }
 }
