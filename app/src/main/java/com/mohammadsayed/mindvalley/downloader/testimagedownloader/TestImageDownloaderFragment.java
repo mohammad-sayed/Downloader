@@ -38,6 +38,8 @@ public class TestImageDownloaderFragment extends Fragment {
         String imageUrl = "https://ak2.picdn.net/shutterstock/videos/4055689/thumb/8.jpg";
         ImageDownloader.with(getContext())
                 .fromUrl(imageUrl)
+                .setCacheEnabled(false)
+                .setGetCached(false)
                 .placeholder(R.drawable.img_placeholder)
                 .error(R.drawable.img_error)
                 .setOnDownloadCompletedListener(new ImageDownloader.OnDownloadCompletedListener() {

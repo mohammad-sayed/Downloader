@@ -19,6 +19,8 @@ public abstract class Downloader implements Observer<DownloadResult> {
     private FileDownloader mFileDownloader;
     private String mUrl;
     private DownloadResult mDownloadResult;
+    private boolean cacheEnabled = true;
+    private boolean getCached = true;
 
     public Downloader(Context context) {
         this.mContext = context;
@@ -75,5 +77,34 @@ public abstract class Downloader implements Observer<DownloadResult> {
 
     public String getUrl() {
         return mUrl;
+    }
+
+    public boolean isCacheEnabled() {
+        return cacheEnabled;
+    }
+
+    /**
+     * Set if downloaded file will be cached or not
+     *
+     * @param cacheEnabled true for caching; false for not caching
+     * @return
+     */
+    public Downloader setCacheEnabled(boolean cacheEnabled) {
+        this.cacheEnabled = cacheEnabled;
+        return this;
+    }
+
+    public boolean isGetCached() {
+        return getCached;
+    }
+
+    /**
+     * Set if file will be retrieved from cache or not
+     *
+     * @param getCached
+     */
+    public Downloader setGetCached(boolean getCached) {
+        this.getCached = getCached;
+        return this;
     }
 }
