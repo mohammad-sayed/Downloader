@@ -23,8 +23,8 @@ public class PhotosController extends BaseController {
         super(context);
     }
 
-    public void getPhotos(final Observer<ArrayList<Photo>> observer) {
-        GetPhotosService getPhotosService = new GetPhotosService(getContext());
+    public void getPhotos(final Observer<ArrayList<Photo>> observer, int currentPhotosSize) {
+        GetPhotosService getPhotosService = new GetPhotosService(getContext(), currentPhotosSize);
         getPhotosService.getObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

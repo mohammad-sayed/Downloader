@@ -48,20 +48,20 @@ public class PhotosFragment extends BaseFragment<PhotosController> implements Ph
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv_photos);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mAdapter = new PhotosAdapter(getContext(), new ArrayList<Photo>(), this);
+        mAdapter = new PhotosAdapter(getContext(), recyclerView, new ArrayList<Photo>(), this);
         recyclerView.setAdapter(mAdapter);
-        getPhotos();
+        //mProgressBar.setVisibility(View.VISIBLE);
+        getPhotos(0);
     }
 
-    private void getPhotos() {
-        mProgressBar.setVisibility(View.VISIBLE);
+    private void getPhotos(int currentItemsSize) {
         getController().getPhotos(new BaseObserver<ArrayList<Photo>>() {
             @Override
             public void onNext(@NonNull ArrayList<Photo> photos) {
-                mAdapter.setPhotos(photos);
-                mProgressBar.setVisibility(View.GONE);
+                mAdapter.addPhotos(photos);
+                //mProgressBar.setVisibility(View.GONE);
             }
-        });
+        }, currentItemsSize);
     }
 
     @Override
@@ -69,5 +69,10 @@ public class PhotosFragment extends BaseFragment<PhotosController> implements Ph
         Intent intent = new Intent(getContext(), PhotoDetailsActivity.class);
         intent.putExtra(Constants.Extras.KEY_PHOTO, photo);
         startActivity(intent);
+    }
+
+    @Override
+    public void onLoadMoreListener(int size) {
+        getPhotos(size);
     }
 }
