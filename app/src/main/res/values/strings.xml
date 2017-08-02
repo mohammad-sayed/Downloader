@@ -5,11 +5,13 @@
     <string name="text_download">Test Text downloading</string>
     <string name="test_photos_mvc">Photos MVC with UI</string>
 
+    <string name="press_to_cancel">Press on Image to Cancel its Downloading</string>
     <string name="downloading">Downloading…</string>
     <string name="cache">Cache: %1$s</string>
     <string name="time">Time: %1$s</string>
     <string name="cache_true">True</string>
     <string name="cache_false">False</string>
+    <string name="refresh">Refresh</string>
 
     <string name="internal_image">Internal Image</string>
     <string name="raw">Raw:&#160;</string>
