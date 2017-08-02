@@ -111,4 +111,12 @@ public abstract class Downloader implements Observer<DownloadResult> {
     public void cancel() {
         mFileDownloader.cancel(this);
     }
+
+    public void clearFile() {
+        if (mDownloadResult != null
+                && mDownloadResult.getFile() != null
+                && mDownloadResult.getFile().exists()) {
+            mDownloadResult.getFile().delete();
+        }
+    }
 }

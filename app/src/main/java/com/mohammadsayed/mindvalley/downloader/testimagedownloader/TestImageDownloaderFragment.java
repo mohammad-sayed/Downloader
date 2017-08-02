@@ -46,7 +46,7 @@ public class TestImageDownloaderFragment extends Fragment implements View.OnClic
         mBtnRefresh = (TextView) view.findViewById(R.id.btn_refresh);
         mBtnRefresh.setOnClickListener(this);
 
-        String imageUrl = "http://www.laguiaclub.com/res/archivos/14734338611880495740.jpg";
+        String imageUrl = "https://ssl.c.photoshelter.com/img-get/I0000TftM_DZWNdM/s/850/850/20121008-nm-tex-2909.jpg";
         ImageDownloader imageDownloader = ImageDownloader.with(getContext());
         imageDownloader.fromUrl(imageUrl)
                 .setCacheEnabled(false)
