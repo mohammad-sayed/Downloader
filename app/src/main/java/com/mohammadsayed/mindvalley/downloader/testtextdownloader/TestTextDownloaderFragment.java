@@ -35,10 +35,12 @@ public class TestTextDownloaderFragment extends Fragment {
         String jsonUrl = "http://pastebin.com/raw/wgkJgazE";
         TextDownloader.with(getContext())
                 .fromUrl(jsonUrl)
+                .setGetCached(false)
+                .setCacheEnabled(false)
                 .setOnDownloadCompletedListener(new TextDownloader.OnDownloadCompletedListener() {
                     @Override
-                    public void onComplete(String text, long duration) {
-                        String textStatus = getImageStatus(duration, false);
+                    public void onComplete(String text, long duration, boolean cached) {
+                        String textStatus = getTextStatus(duration, cached);
                         tvNotCachedFileStatus.setText(textStatus);
                     }
                 })
@@ -48,15 +50,15 @@ public class TestTextDownloaderFragment extends Fragment {
                 .fromUrl(jsonUrl)
                 .setOnDownloadCompletedListener(new TextDownloader.OnDownloadCompletedListener() {
                     @Override
-                    public void onComplete(String text, long duration) {
-                        String textStatus = getImageStatus(duration, false);
+                    public void onComplete(String text, long duration, boolean cache) {
+                        String textStatus = getTextStatus(duration, cache);
                         tvCachedFileStatus.setText(textStatus);
                     }
                 })
                 .into(tvCachedJson);
     }
 
-    private String getImageStatus(long duration, boolean cache) {
+    private String getTextStatus(long duration, boolean cache) {
         StringBuilder stringBuilder = new StringBuilder();
         String durationText = StringUtil.getDurationTime(duration);
         String cacheStatus = cache ? getString(R.string.cache_true) : getString(R.string.cache_false);

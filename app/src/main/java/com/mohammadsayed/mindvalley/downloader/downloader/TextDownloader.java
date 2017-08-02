@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.mohammadsayed.mindvalley.downloader.R;
+import com.mohammadsayed.mindvalley.downloader.cachemanagers.TextCacheManager;
 import com.mohammadsayed.mindvalley.downloader.data.DownloadResult;
 
 import java.io.BufferedReader;
@@ -24,9 +25,12 @@ public class TextDownloader extends Downloader {
     private TextView mTextView;
     private String mText;
     private OnDownloadCompletedListener mOnDownloadCompletedListener;
+    private TextCacheManager mTextCacheManager;
+    private boolean mCachedString = false;
 
     private TextDownloader(Context context) {
         super(context);
+        mTextCacheManager = TextCacheManager.getInstance();
     }
 
 
@@ -49,6 +53,17 @@ public class TextDownloader extends Downloader {
         return this;
     }
 
+    @Override
+    public TextDownloader setCacheEnabled(boolean cacheEnabled) {
+        return (TextDownloader) super.setCacheEnabled(cacheEnabled);
+    }
+
+    @Override
+    public TextDownloader setGetCached(boolean getCached) {
+        return (TextDownloader) super.setGetCached(getCached);
+    }
+
+
     public TextDownloader setOnDownloadCompletedListener(OnDownloadCompletedListener onDownloadCompletedListener) {
         this.mOnDownloadCompletedListener = onDownloadCompletedListener;
         return this;
@@ -63,7 +78,34 @@ public class TextDownloader extends Downloader {
         if (mText != null) {
             mTextView.setText(mText);
         } else {
+            loadText();
+        }
+    }
+
+    private void loadText() {
+        if (!isUrlValid()) {
+            return;
+        }
+        String string = null;
+        if (isGetCached()) {
+            string = mTextCacheManager.getStringFromMemCache(getUrl());
+        }
+        if (string != null) {
+            mText = string;
+            mCachedString = true;
+            setTextViewString();
+            onComplete();
+        } else {
             startDownloading();
+        }
+    }
+
+    private void setTextViewString() {
+        if (isCacheEnabled()) {
+            mTextCacheManager.addStringToMemoryCache(getUrl(), mText);
+        }
+        if (mTextView != null) {
+            mTextView.setText(mText);
         }
     }
 
@@ -81,9 +123,7 @@ public class TextDownloader extends Downloader {
     public void onNext(@NonNull DownloadResult downloadResult) {
         super.onNext(downloadResult);
         mText = getFileTextContent(downloadResult.getFile());
-        if (mTextView != null) {
-            mTextView.setText(mText);
-        }
+        setTextViewString();
     }
 
     @Override
@@ -100,7 +140,7 @@ public class TextDownloader extends Downloader {
     @Override
     public void onComplete() {
         if (mOnDownloadCompletedListener != null) {
-            mOnDownloadCompletedListener.onComplete(mText, getDuration());
+            mOnDownloadCompletedListener.onComplete(mText, getDuration(), mCachedString);
         }
     }
 
@@ -126,6 +166,6 @@ public class TextDownloader extends Downloader {
     }
 
     public interface OnDownloadCompletedListener {
-        void onComplete(String text, long duration);
+        void onComplete(String text, long duration, boolean cached);
     }
 }

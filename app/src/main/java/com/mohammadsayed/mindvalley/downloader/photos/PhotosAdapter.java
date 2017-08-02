@@ -50,7 +50,12 @@ public class PhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if (!isLoading && totalItemCount != 0 && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
                     isLoading = true;
                     mPhotos.add(null);
-                    notifyItemInserted(mPhotos.size() - 1);
+                    recyclerView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            notifyItemInserted(mPhotos.size() - 1);
+                        }
+                    });
                     if (onPhotosAdapterListener != null) {
                         onPhotosAdapterListener.onLoadMoreListener(totalItemCount);
                     }

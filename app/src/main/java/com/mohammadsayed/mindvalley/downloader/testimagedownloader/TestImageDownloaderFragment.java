@@ -38,12 +38,14 @@ public class TestImageDownloaderFragment extends Fragment {
         String imageUrl = "https://ak2.picdn.net/shutterstock/videos/4055689/thumb/8.jpg";
         ImageDownloader.with(getContext())
                 .fromUrl(imageUrl)
+                .setCacheEnabled(false)
+                .setGetCached(false)
                 .placeholder(R.drawable.img_placeholder)
                 .error(R.drawable.img_error)
                 .setOnDownloadCompletedListener(new ImageDownloader.OnDownloadCompletedListener() {
                     @Override
-                    public void onComplete(Bitmap bitmap, long duration) {
-                        String imageStatus = getImageStatus(duration, false);
+                    public void onComplete(Bitmap bitmap, long duration, boolean cached) {
+                        String imageStatus = getImageStatus(duration, cached);
                         tvNotCachedImageStatus.setText(imageStatus);
                     }
                 })
@@ -54,8 +56,8 @@ public class TestImageDownloaderFragment extends Fragment {
                 .error(R.drawable.img_error)
                 .setOnDownloadCompletedListener(new ImageDownloader.OnDownloadCompletedListener() {
                     @Override
-                    public void onComplete(Bitmap bitmap, long duration) {
-                        String imageStatus = getImageStatus(duration, false);
+                    public void onComplete(Bitmap bitmap, long duration, boolean cached) {
+                        String imageStatus = getImageStatus(duration, cached);
                         tvCachedImageStatus.setText(imageStatus);
                     }
                 })

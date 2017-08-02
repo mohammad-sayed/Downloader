@@ -42,7 +42,7 @@ public class GetPhotosService extends BaseService<ArrayList<Photo>>
     }
 
     @Override
-    public void onComplete(String text, long duration) {
+    public void onComplete(String text, long duration, boolean enabled) {
         Gson gson = new Gson();
         Photo[] photosArray = gson.fromJson(text, Photo[].class);
         ArrayList<Photo> arrayList = new ArrayList<>(Arrays.asList(photosArray));
