@@ -116,7 +116,7 @@ public class FileDownloader implements ObservableOnSubscribe<DownloadResult> {
             notifySubscribersOnError(new RuntimeException("Directory not created"));
             return null;
         }
-        return directory.getPath() + "/" + urlString.substring(urlString.lastIndexOf("/") + 1);
+        return directory.getPath() + "/" + System.currentTimeMillis() + urlString.substring(urlString.lastIndexOf("/") + 1);
     }
 
 
